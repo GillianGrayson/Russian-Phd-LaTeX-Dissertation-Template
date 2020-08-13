@@ -81,7 +81,7 @@ L(t) = -i \left( \idmtx \otimes H(t) - H^\top(t) \otimes \idmtx \right) + \\
 i \frac{\partial}{\partial t} \psi_j(t) = \tilde{H}(t) \psi_j(t)
 \end{gathered}
 \end{equation}
-Здесь волновая функция \(\psi_j(t)\) описывает состояние \(j\)-ой квантовой траектории в момент времени \(t\). Эволюция волновой функции будет прерываться случайными квантовыми скачками, индуцированными диссипативными операторами \(V_k(t)\).
+Здесь волновая функция \(\psi_j(t)\) описывает состояние \(j\)-ой квантовой траектории в момент времени \(t\). Эволюция волновой функции будет прерываться случайными квантовыми скачками, индуцированными диссипативными операторами \(V_k(t)\). Если необходимо достижение асимптотического режима, нужно выбирать время \(t^F\) достаточным для окончания всех процессов релаксации системы.
 
 Полное описание метода квантовых траекторий выглядит следующим образом \cite{Volokitin2017}:
 
@@ -89,27 +89,90 @@ i \frac{\partial}{\partial t} \psi_j(t) = \tilde{H}(t) \psi_j(t)
 \begin{algorithm}[H]
 	\SetAlgoLined
 	Инициализация неэрмитового гамильтониана \(\tilde{H}(t)\) из уравнения \cref{eq:H_nonhermit}\;
+	Инициализация стартового значения \( \left| \psi^{init} \right\rangle \) для \(M_r\) траекторий\;
 	\For{\(j\leftarrow 1\) \KwTo \(M_r\)}
 	{
-		Инициализация стартового значения \(j\)-ой траектории \( \left| \psi^{init}_j \right\rangle \)\;
-		Инициализация стартового времени для \(j\)-ой траектории: \(t_j=0\)\;
+		Инициализация стартового времени для \(j\)-ой траектории: \(t_j\leftarrow0\)\;
 		\While{\(t_j < t^F\)}{
 			Генерация случайной величины \(\eta\), равномерно распределённой в интревале \(\left[0; 1\right] \)\;
 			Численное пропагирование состояния волновой функции \( \left| \psi_j (t) \right\rangle \) на время, необходимое для убывания квадрата нормы волновой функции до значения \(\eta\): \(\norm{\left| \psi_j(t_j) \right\rangle}^2 = \eta\)\;
-			Нормализация волновой функции: \( \left| \psi_j (t_j) \right\rangle \rightarrow \frac{\left| \psi_j (t_j) \right\rangle}{\norm{\left| \psi_j(t_j) \right\rangle}} \)\;
-			Осуществление квантового скачка через диссипативный оператор \(V_k(t_j)\) с вероятностью \(p_k=\gamma_k(t_j) \frac{\norm{ V_k(t_j) \left| \psi_j(t_j) \right\rangle}^2}{\sum_{l=1}^{K} \norm{ V_l(t_j) \left| \psi_j(t_j) \right\rangle}^2}\)\;
-			Трансформация волновой фунции с учетом выбранного канала диссипации: \( \left| \psi_j (t_j) \right\rangle \rightarrow \frac{ V_k(t_j) \left| \psi_j (t_j) \right\rangle}{\norm{V_k(t_j) \left| \psi_j(t_j) \right\rangle}}\)\;
+			Нормализация волновой функции: \( \left| \psi_j (t_j) \right\rangle \leftarrow \frac{\left| \psi_j (t_j) \right\rangle}{\norm{\left| \psi_j(t_j) \right\rangle}} \)\;
+			Осуществление квантового скачка через диссипативный оператор \(V_k(t_j)\) с вероятностью \(p_k\leftarrow\gamma_k(t_j) \frac{\norm{ V_k(t_j) \left| \psi_j(t_j) \right\rangle}^2}{\sum_{l=1}^{K} \norm{ V_l(t_j) \left| \psi_j(t_j) \right\rangle}^2}\)\;
+			Трансформация волновой фунции с учетом выбранного канала диссипации: \( \left| \psi_j (t_j) \right\rangle \leftarrow \frac{ V_k(t_j) \left| \psi_j (t_j) \right\rangle}{\norm{V_k(t_j) \left| \psi_j(t_j) \right\rangle}}\)\;
 		}
 	}
-	Вычисление матрицы плотности в момент времени \(t^F\) при помощи \(M_r\) квантовых траекторий: \(\rho_{M_r}(t^F) = \frac{1}{M_r}\sum_{j=1}^{M_r} \left| \psi_j (t^F) \left\rangle \right\langle \psi_j (t^F)  \right| \)\;
+	Вычисление матрицы плотности в момент времени \(t^F\) при помощи \(M_r\) квантовых траекторий: \(\rho_{M_r}(t^F) \leftarrow \frac{1}{M_r}\sum_{j=1}^{M_r} \left| \psi_j (t^F) \left\rangle \right\langle \psi_j (t^F)  \right| \)\;
 	\label{alg:qt_main}
 	\caption{Метод квантовых траекторий}
 \end{algorithm}
 \DecMargin{1em}
 
+Формально, в пределе \(M_r \rightarrow \infty\) матрица плотности сходится к решению уравнения \cref{eq:GKSL_lindbladian} в момент времени \(t^F\) для заданной начальной матрицы плотности \( \rho^{init} = \left| \psi^{init} \left\rangle \right\langle \psi^{init} \right|\) \cite{Breuer2007, Dum1992}.
 
+Промежуток времени между двумя последовательными квантовыми скачками заранее не известен и его длительность можно вычислить только при непосредственном пропагировании квантовой траектории. 
+При пропагации траектории необходимо контролировать убывающий квадрат нормы волновой функции и определить момент времени, когда он станет равен случайному значению \(\eta\).
 
+В случае, если система является периодически модулируемой, и функция модуляции является непрерывно зависящей от времени, то в данном случае возможно применение классических методов численного интегрирования \cite{Lambert1991} с достаточно маленьким шагом \cite{Breuer2007}, а также специальные схемы для стохастических дифференциальных уравнений \cite{Cao2003}.
 
+В случае, если система является автономной или периодической с кусочно"--~постоянной функцией модуляции, то применима специальная схема на основе экспоненциальных пропагаторов \cite{Volokitin2017}.
+Пропагирование на любой временной интервал \(\tau\), в рамках которого эффективный гамильтониан \(\tilde{H}\) остаётся постоянным, может быть выполнено при помощи специального пропагирующего оператора (пропагатора):
+\begin{equation}
+\label{eq:propagator}
+\begin{gathered}
+\mathcal{P}_{\tau} = e^{-i \tilde{H} \tau},
+\end{gathered}
+\end{equation}
+где \(e\) "--- функция матричной экспоненты \cite{Moler2003}. Для отыскания времени квантового прыжка использовался эффективный метод бисекции \cite{Knuth1997} c максимальной глубиной \(D\):
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+	\SetAlgoLined
+	Инициализация стартовой глубины бисекции: \(d=1\)\;
+	Инициализация количества пройденных шагов на каждой глубине бисекции: \(s_d = 0\) \((d=1 \ldots D)\)\;
+	\label{alg:qt_bisection}
+	\caption{Прогагация квантовой траектории на время \(\tau\) при помощи метода бисекции}
+\end{algorithm}
+\DecMargin{1em}
+
+\IncMargin{1em}
+\begin{algorithm}[H]
+	\SetAlgoLined
+	\SetKwProg{Fn}{Function}{:}{}
+	\SetKwFunction{prop}{Propagation}
+	\SetKwFunction{jump}{Jump}
+	\Fn{\prop{\(\left| \psi_j (t) \right\rangle\), \(t\), \(\eta\), \(d\)}}{
+		\uIf{d = D}{
+			\While{$s_d \neq 2$}{
+				Пропагация \( | \tilde{\psi}_j(t) \rangle \leftarrow \mathcal{P}_{\tau_d} \left| \psi_j(t) \right\rangle \)\;
+				\uIf{\( \norm{| \tilde{\psi}_j(t) \rangle}^2 < \eta\)}{
+					\jump{\(| \tilde{\psi}_j(t) \rangle\)}\;
+					Случайная генерация числа \(\eta\)\;
+				}
+				\(\left| \psi_j(t) \right\rangle \leftarrow | \tilde{\psi}_j(t) \rangle\)\;
+				\(s_d \leftarrow s_d + 1\)\;
+				\(t \leftarrow t + \tau_d\)\;
+			}
+		}
+		\Else{
+			\While{$s_d \neq 2$}{
+				Пропагация \( | \tilde{\psi}_j(t) \rangle \leftarrow \mathcal{P}_{\tau_d} \left| \psi_j(t) \right\rangle \)\;
+				\uIf{\( \norm{| \tilde{\psi}_j(t) \rangle}^2 < \eta\)}{
+					\prop{\(\left| \psi_j (t) \right\rangle\), \(t\), \(\eta\), \(d + 1\)}\;
+					\(t \leftarrow t - \tau_d\)\;
+				}
+				\Else{
+					\(\left| \psi_j(t) \right\rangle = | \tilde{\psi}_j(t) \rangle\)\;
+				}
+				\(s_d \leftarrow s_d + 1\)\;
+				\(t \leftarrow t + \tau_d\)\;
+			}
+		}
+		\(s_d \leftarrow 0\)\;
+	}
+	\label{alg:qt_prop}
+	\caption{Прогагация квантовой траектории на время \(\tau\) при помощи метода бисекции}
+\end{algorithm}
+\DecMargin{1em}
 
 
 
