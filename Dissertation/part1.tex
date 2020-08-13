@@ -203,16 +203,38 @@ i \frac{\partial}{\partial t} \psi_j(t) = \tilde{H}(t) \psi_j(t)
 
 C вычислительной точки зрения, самая ресурсоемкая операция "--- умножение матрицы \(\mathcal{P}_{d}\) на вектор \(\left| \psi_j(t) \right\rangle \) в строке \ref{alg:mvmult} алгоритма \ref{alg:qt_recursive}. С целью ускорения вычислений, в программной реализации на языке C++ использовалась соответствующая функция из библиотеки Eigen \cite{eigenweb}.
 
-\section{Одночастичная модель с локализацией Андерсона}\label{sec:ch1/sec3}
-Одночастичная модель описывается уравнением Линдблада \cref{eq:GKSL_base, eq:GKSL_lindbladian} c независящим от времени гамильтонианом \cite{Anderson1958}:
+\section{Открытая модель Андерсона}\label{sec:ch1/sec3}
+Открытая одночастичная модель Андерсона описывается уравнением Линдблада \cref{eq:GKSL_base, eq:GKSL_lindbladian} c независящим от времени гамильтонианом \cite{Anderson1958}:
 \begin{equation}
 \label{eq:H_anderson}
 \begin{gathered}
 H = \sum_{n} \varepsilon_n b^\dagger_n b_n - \left(b^\dagger_n b_{n+1} + b^\dagger_{n+1} b_{n}\right),
 \end{gathered}
 \end{equation}
+где \(\varepsilon_n \in \left[-\frac{W}{2}, \frac{W}{2}\right]\) "--- случайные некореллированые значения энергий на сайте \(n\), \(W\) "--- сила пространственного беспорядка, \(b_n\) и \(b^\dagger_n\) "--- операторы рождения и уничтожения бозона на сайте \(n\). Известно, что собственные значения гамильтониана для этой модели находятся в следующем интервале:
+\begin{equation}
+\label{eq:anderson_evals}
+\begin{gathered}
+\lambda_\nu \in \left[-2-\frac{W}{2}, 2+\frac{W}{2}\right],
+\end{gathered}
+\end{equation}
+а соответствующие им собственные вектора \(A_\nu\) являются экспоненциально локализованными в пространстве с длиной локализации \cite{Thouless1983}:
+\begin{equation}
+\label{eq:anderson_loc_length}
+\begin{gathered}
+\xi_{\lambda} \approx \frac{24\left(4-\lambda^2\right)}{W^2},
+\end{gathered}
+\end{equation}
+c небольшими поправками на границах спектра \cite{derrida1984lyapounov}.
 
-
+Асимптотическая матрица плотности \(\rho^A\) формируется не только гамильтонианом, но и окружением открытой квантовой системы "--- диссипативными операторами. В простейшем случае, когда все диссипативные операторы эрмитовы (\(V_k \equiv V^\dagger_k \)), асимптотическая матрица плотности будет иметь тривиальный вид: \(\rho^A=\frac{\idmtx}{N}\), характеризующий состояние системы с максимальной энтропией (\(N\) "--- размерность системы). 
+Такой тип диссипации не приводит к локализации, но для полного и всестороннего анализа такие диссипаторы тоже будут использоваться в данной работе:
+\begin{equation}
+\label{eq:anderson_diss_dephase}
+\begin{gathered}
+V_k = b^\dagger_k b_k.
+\end{gathered}
+\end{equation}
 
 
 
