@@ -281,10 +281,10 @@ V_k = \left( b^\dagger_k + e^{i \alpha} b^\dagger_{k+l}\right) \left( b_k - e^{-
 \begin{equation}
 \label{eq:anderson_rho_in_eigen_basis}
 \begin{gathered}
-\bar{\rho}^A = A^\dagger_\nu \rho^A A_\nu,
+\bar{\rho}^A = \mathcal{A}^\dagger \rho^A \mathcal{A},
 \end{gathered}
 \end{equation}
-где \(A_\nu\) - матрица собственных векторов гамильтониана \cref{eq:anderson_H}. В данном представлении матрица плотности \(\bar{\rho}^A\) является практически диагональной, с большим преобладанием значений из нижней части спектра, как показано на рисунке~\cref{fig:anderson_rho_loc-2}.
+где \(\mathcal{A} = \left(A_1 \ldots A_\nu \ldots A_N \right) \) "--- матрица собственных векторов гамильтониана \cref{eq:anderson_H}. В данном представлении матрица плотности \(\bar{\rho}^A\) является практически диагональной, с большим преобладанием значений из нижней части спектра, как показано на рисунке~\cref{fig:anderson_rho_loc-2}.
 
 Для аналитического подтверждения данного наблюдения перепишем уравнение \cref{eq:GKSL_base} в базисе собственных состояний модели Андерсона \cref{eq:anderson_rho_in_eigen_basis}, пренебрегая недиагональными элементами матрицы плотности. В таком приближении эволюция диагональных элементов определяется только диссипативными членами:
 \begin{equation}
@@ -293,13 +293,63 @@ V_k = \left( b^\dagger_k + e^{i \alpha} b^\dagger_{k+l}\right) \left( b_k - e^{-
 \dot{\bar{\rho}}_{p,p} = \gamma \left( \sum_q I_{p,q}\bar{\rho}_{q,q} - \bar{\rho}_{p,p} \sum_q I_{q,p} \right),
 \end{gathered}
 \end{equation}
-где коэффициенты перекрытий \(I_{p,q}\) представляются следующим образом через диссипативные операторы в базисе собственных состояний модели Андерсона (\(\bar{V}_k = A^\dagger_\nu V_k A_\nu\)):
+где коэффициенты перекрытий \(I_{p,q}\) представляются следующим образом через диссипативные операторы в базисе собственных состояний модели Андерсона (\(\bar{V}_k = \mathcal{A}^\dagger V_k \mathcal{A}\)):
 \begin{equation}
 \label{eq:anderson_diag_mod_2}
 \begin{gathered}
-I_{p,q} = \sum_k \left| \left(\bar{V}_k\right)_{q,p} \right|^2.
+I_{p,q} = \sum_k \left| \left(\bar{V}_k\right)_{q,p} \right|^2 = \sum_k \left(\mathcal{A}_{p, k+l} + e^{i \alpha} \mathcal{A}_{p, k} \right)^2  \left(\mathcal{A}_{q, k+l} - e^{-i \alpha} \mathcal{A}_{q, k} \right)^2.
 \end{gathered}
 \end{equation}
+Система линейных дифференциальных уравнений \cref{eq:anderson_diag_mod_1} имеет единственное устойчивое состояние равновесия. Для его поиска, приравняем правую часть уравнения к \(0\), введём переобозначение:
+\begin{equation}
+\label{eq:anderson_diag_mod_3}
+\begin{gathered}
+I^{\pm}_{p,k} = \left(\mathcal{A}_{p, k+l} \pm e^{\pm i \alpha} \mathcal{A}_{p, k} \right)^2 ,
+\end{gathered}
+\end{equation}
+и получим итоговое выражение для асимптотического состояния равновесия:
+\begin{equation}
+\label{eq:anderson_diag_mod_4}
+\begin{gathered}
+\bar{\rho}^A_{p,p} = \frac{\sum_q I_{p,q}\bar{\rho}^A_{q,q}}{\sum_q I_{q,p}} = \frac{\sum_q \sum_k I^{+}_{p,k} I^{-}_{q,k} \bar{\rho}^A_{q,q}}{\sum_q \sum_k I^{+}_{q,k}  I^{-}_{p,k}} = \frac{\sum_k I^{+}_{p,k} \sum_q I^{-}_{q,k} \bar{\rho}^A_{q,q}}{ \sum_k I^{-}_{p,k} \sum_q  I^{+}_{q,k} } .
+\end{gathered}
+\end{equation}
+Внутренние суммы в числителе и знаменателе в самой правой части выражения не зависят от индекса \(p\). Они подвергаются усреднению по всем охватываемым собственным состояниям. Поскольку беспорядок пространственно однороден, среднее по ансамблю делает результат также независимым от индекса \(k\), и поэтому обе суммы соответствуют некоторой нормировочной константе. Таким образом, мы приходим к следующему выражению для асимптотической матрицы плотности в базисе собственных состояний модели Андерсона:
+\begin{equation}
+\label{eq:anderson_diag_mod_5}
+\begin{gathered}
+\bar{\rho}^A_{p,p} \approx \frac{\sum_k I^{+}_{p,k}}{ \sum_k I^{-}_{p,k}}, 
+\end{gathered}
+\end{equation}
+которое полностью определяется типом диссипации и пространственной структурой конкретного собственного состояния.
+
+Для случая синфазной диссипации на соседних сайтах решётки (\(\alpha=0\) и \(l=1\) в \cref{eq:anderson_diss_local}) получается соотношение:
+\begin{equation}
+\label{eq:anderson_diag_mod_6}
+\begin{gathered}
+\sum_k \left( \mathcal{A}_{p, k+1} \pm \mathcal{A}_{p, k} \right)^2 = 2 \pm \sum_k \mathcal{A}_{p, k+1} \mathcal{A}_{p, k} = 2 \mp \lambda_p \mp \sum_k \varepsilon_k \mathcal{A}^2_{p, k}.
+\end{gathered}
+\end{equation}
+Оно основано на тождестве, полученном из следующего уравнения для собственных состояний:
+\begin{equation}
+\label{eq:anderson_diag_mod_7}
+\begin{gathered}
+-\left( \lambda_p - \varepsilon_k \right) \mathcal{A}_{p, k} = \mathcal{A}_{p, k-1} + \mathcal{A}_{p, k+1},
+\end{gathered}
+\end{equation}
+которое, в свою очередь, умножается на \(\mathcal{A}_{p, k}\) и суммируется по \(k\).
+В уравнении \cref{eq:anderson_diag_mod_6} в случае малого беспорядка (\(W < 4\)) и далеко от границ спектра, можно пренебречь последним слагаемым в правой части (усреднение из-за пространственного беспорядка), и в итоге получить следующее соотношение:
+\begin{equation}
+\label{eq:anderson_diag_mod_8}
+\begin{gathered}
+\bar{\rho}^A_{p,p} \approx \frac{2-\lambda_p}{2+\lambda_p}.
+\end{gathered}
+\end{equation}
+
+
+
+
+
 
 
 На рисунке~\cref{fig:knuth_2-1} показан Дональд Кнут без головного убора.
