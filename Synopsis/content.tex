@@ -37,19 +37,19 @@
 
 \underline{\textbf{Первая глава}} посвящена \dots
 
-картинку можно добавить так:
-\begin{figure}[ht]
-    \centerfloat{
-        \hfill
-        \subcaptionbox{\LaTeX}{%
-            \includegraphics[scale=0.27]{latex}}
-        \hfill
-        \subcaptionbox{Knuth}{%
-            \includegraphics[width=0.25\linewidth]{knuth1}}
-        \hfill
-    }
-    \caption{Подпись к картинке.}\label{fig:latex}
-\end{figure}
+%картинку можно добавить так:
+%\begin{figure}[ht]
+%    \centerfloat{
+%        \hfill
+%        \subcaptionbox{\LaTeX}{%
+%            \includegraphics[scale=0.27]{latex}}
+%        \hfill
+%        \subcaptionbox{Knuth}{%
+%            \includegraphics[width=0.25\linewidth]{knuth1}}
+%        \hfill
+%    }
+%    \caption{Подпись к картинке.}\label{fig:latex}
+%\end{figure}
 
 Формулы в строку без номера добавляются так:
 \[
@@ -65,7 +65,7 @@
 \verb!Synopsis/setup.tex! необходимо присвоить положительное значение
 счётчику \verb!\setcounter{usefootcite}{1}!. В таком случае ссылки на
 работы других авторов будут подстрочными.
-Изложенные в третьей главе результаты опубликованы в~\cite{vakbib1, vakbib2}.
+%Изложенные в третьей главе результаты опубликованы в~\cite{vakbib1, vakbib2}.
 Использование подстрочных ссылок внутри таблиц может вызывать проблемы.
 
 В \underline{\textbf{четвертой главе}} приведено описание
@@ -94,28 +94,43 @@
   %  * Если цитировать каждый источник отдельной командой --- найти некоторые ошибки будет проще.
   %
   %% authorvak
-  \nocite{vakbib1}%
-  \nocite{vakbib2}%
+  %\nocite{vakbib1}%
+  %\nocite{vakbib2}%
   %
   %% authorwos
-  \nocite{wosbib1}%
+  \nocite{Yusipov2017}%
+  \nocite{Vershinina2017}%
+  \nocite{Yusipov2018}%
+  \nocite{Vakulchyk2018}%
+  \nocite{Yusipov2019_2}%
+  \nocite{Yusipov2019_1}%
+  \nocite{Yusipov2020}%
+  \nocite{Liniov2019}%
   %
   %% authorscopus
-  \nocite{scbib1}%
+  %\nocite{scbib1}%
   %
   %% authorpathent
-  \nocite{patbib1}%
+  %\nocite{patbib1}%
   %
   %% authorprogram
-  \nocite{progbib1}%
+  \nocite{prog1}%
   %
   %% authorconf
-  \nocite{confbib1}%
-  \nocite{confbib2}%
+  \nocite{sessiann_2017}%
+  \nocite{rf_2017}%
+  \nocite{sfy_2017}%
+  \nocite{shilnikov_2017}%
+  \nocite{sessiann_2018}%
+  \nocite{rf_2018}%
+  \nocite{nnnph_2018}%
+  \nocite{physcon_2019}%
+  %\nocite{confbib1}%
+  %\nocite{confbib2}%
   %
   %% authorother
-  \nocite{bib1}%
-  \nocite{bib2}%
+  %\nocite{bib1}%
+  %\nocite{bib2}%
 
   \ifnumgreater{\value{usefootcite}}{0}{
     \begin{refcontext}[labelprefix={}]
