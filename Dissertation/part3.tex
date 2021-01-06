@@ -86,18 +86,75 @@
 	\end{gathered}
 \end{equation}
 и синхронизирует динамику на сайтах димера за счёт рециркуляции антисимметричных противофазных состояний в симметричные и синфазные. Скорость диссипации \(\gamma\) является независимой от времени величиной.
+При использовании метода квантовых траекторий \cref{sec:ch1/qj} для каждой траектории \(\left| \psi_j(t) \right\rangle\) ( \(j\) - индекс) в момент времени \(t\) будут вычисляться следующие значения наблюдаемых "--- нормированного числа частиц в левом сайте димера:
+\begin{equation}
+	\label{eq:dimer_num_bosons}
+	\begin{gathered}
+		n_j(t) =  \frac{1}{N}\langle \psi_j(t)| b^\dagger_1 b_1 | \psi_j(t) \rangle,
+	\end{gathered}
+\end{equation}
+и нормированной энергии:
+\begin{equation}
+	\label{eq:dimer_energy}
+	\begin{gathered}
+		e_j(t) = \frac{1}{N} \langle \psi_j(t)| H(t) | \psi_j(t) \rangle.
+	\end{gathered}
+\end{equation}
 
 \subsection{Среднеполевое приближение}\label{subsec:ch3/dimer/meanfield}
 В пределе бесконечного числа частиц \(N \to \infty\) в среднеполевом приближении модели квантового димера используются следующие спиновые операторы:
 \begin{equation}
-	\label{eq:dimer_diss}
+	\label{eq:dimer_meanfield_spin}
 	\begin{gathered}
 		\mathcal{S}_x = \frac{1}{2 N} \left(b^\dagger_1 b_2 + b^\dagger_2 b_1\right), \\
 		\mathcal{S}_y = - \frac{i}{2 N} \left(b^\dagger_1 b_2 - b^\dagger_2 b_1\right), \\
 		\mathcal{S}_z = \frac{1}{2 N} \left(b^\dagger_1 b_1 - b^\dagger_2 b_2\right), \\
 	\end{gathered}
 \end{equation}
-чья эволюция рассматривается в представлении Гейзенберга \cite{Breuer2007}. В пределе бесконечного числа частиц коммутатором первых двух спиновых операторов можно пренебречь: \(\left[\mathcal{S}_x, \mathcal{S}_y\right] = i \mathcal{S}_z \stackrel{N\to\infty}{=} 0\) (так как является бесконечно малой порядка $\mathcal{O}(N^{-1})$). Это же свойство справедливо для всех остальных коммутаторов, полученных из разных перестановок спиновых операторов.
+чья эволюция рассматривается в представлении Гейзенберга \cite{Breuer2007}. 
+В пределе бесконечного числа частиц коммутатором первых двух спиновых операторов можно пренебречь: \(\left[\mathcal{S}_x, \mathcal{S}_y\right] = i \mathcal{S}_z \stackrel{N\to\infty}{=} 0\) (так как является бесконечно малой порядка $\mathcal{O}(N^{-1})$). 
+Это же свойство справедливо для всех остальных коммутаторов, полученных из разных перестановок спиновых операторов.
+Заменяя спиновые операторы их математическим ожиданием \(\mathscr{S}_k = tr\left[\rho\mathcal{S}_k\right]\), можно получить следующую систему дифференциальных уравнений \cite{Hartmann2017}:
+\begin{equation}
+	\label{eq:dimer_meanfield_ode_spin}
+		\left\{
+		  \begin{array}{rl}
+		    \frac{d \mathscr{S}_x}{dt} = & 2\varepsilon (t) \mathscr{S}_y - 8 U \mathscr{S}_z \mathscr{S}_y + 8 \gamma \left(\mathscr{S}_y^2+\mathscr{S}_z^2\right) \\
+		    \frac{d \mathscr{S}_y}{dt} = & -2\varepsilon \left(t\right) \mathscr{S}_x + 8 U \mathscr{S}_x \mathscr{S}_z - 2 \mathcal{J} \mathscr{S}_z + 8\gamma \mathscr{S}_x \mathscr{S}_y \\
+		    \frac{d \mathscr{S}_z}{dt} = & -2 \mathcal{J} \mathscr{S}_y - 8 \gamma \mathscr{S}_x \mathscr{S}_z
+		  \end{array}
+		\right.
+\end{equation}	
+В данной системе есть интеграл движения: \(\mathscr{S}^2 = \mathscr{S}_x^2 + \mathscr{S}_y^2 + \mathscr{S}_z^2\) и эволюция среднеполевой модели ограничена поверхностью сферы Блоха \cite{Nielsen2010}:
+\begin{equation}
+	\label{eq:dimer_meanfield_sphere}
+	\left\{
+	\begin{array}{rl}
+		\mathscr{S}_x = & \frac{1}{2} \cos{\left(\varphi\right)}\sin{\left(\vartheta\right)}\\
+		\mathscr{S}_y = & \frac{1}{2} \sin{\left(\varphi\right)}\sin{\left(\vartheta\right)}\\
+		\mathscr{S}_z = & \frac{1}{2} \cos{\left(\vartheta\right)}
+	\end{array}
+	\right.
+\end{equation}
+Система дифференциальных, описывающих движение на данной сфере выглядит следующим образом:
+\begin{equation}
+	\label{eq:dimer_meanfield_ode_sphere}
+	\left\{
+	\begin{array}{rl}
+		\dot{\vartheta} = & -2\mathcal{J}\sin{\left(\varphi\right)} + 4\gamma \cos{\left(\varphi\right)}\cos{\left(\vartheta\right)} \\
+		\dot{\varphi} = & -2 \mathcal{J} \frac{\cos{\left(\vartheta\right)}}{\sin{\left(\vartheta\right)}} - 2\varepsilon\left(t\right) + 4U \cos{\left(\vartheta\right)} - 4\gamma\frac{\sin{\left(\varphi\right)}}{\sin{\left(\vartheta\right)}}
+	\end{array}
+	\right.
+\end{equation}
+Число бозонов в первом сайте димера вычисляется по формуле:
+\begin{equation}
+	\label{eq:dimer_meanfield_num_bosons}
+	\begin{gathered}
+		n=\frac{N}{2}(1+\cos{\left(\vartheta\right)}).
+	\end{gathered}
+\end{equation}
+Данная классическая нелинейная система \cref{eq:dimer_meanfield_ode_sphere} будет играть опорную роль и результаты полученные для неё будут сравниваться с результатами квантовой системы, описанной в разделе \cref{subsec:ch3/dimer/quantum}.
+
 
 %\section{Таблица обыкновенная}\label{sec:ch3/sect1}
 %
