@@ -83,7 +83,7 @@ i \frac{\partial}{\partial t} \psi_j(t) = \tilde{H}(t) \psi_j(t)
 	{
 		Инициализация стартового времени для \(j\)-ой траектории: \(t_j\leftarrow0\)\;
 		\While{\(t_j < t^C\)}{
-			Генерация случайной величины \(\eta\), равномерно распределённой в интревале \(\left[0; 1\right] \)\;
+			Генерация случайной величины \(\eta\), равномерно распределённой в интервале \(\left[0; 1\right] \)\;
 			Численное пропагирование состояния волновой функции \( \left| \psi_j (t) \right\rangle \) на время, необходимое для убывания квадрата нормы волновой функции до значения \(\eta\): \(\norm{\left| \psi_j(t_j) \right\rangle}^2 = \eta\)\;
 			Нормализация волновой функции: \( \left| \psi_j (t_j) \right\rangle \leftarrow \frac{\left| \psi_j (t_j) \right\rangle}{\norm{\left| \psi_j(t_j) \right\rangle}} \)\;
 			Осуществление квантового скачка через случайно выбранный диссипативный оператор \(V_k(t_j)\) с вероятностью \(p_k\leftarrow\gamma_k(t_j) \frac{\norm{ V_k(t_j) \left| \psi_j(t_j) \right\rangle}^2}{\sum_{l=1}^{K} \norm{ V_l(t_j) \left| \psi_j(t_j) \right\rangle}^2}\)\;
@@ -135,7 +135,7 @@ i \frac{\partial}{\partial t} \psi_j(t) = \tilde{H}(t) \psi_j(t)
 		}
 		\(s_d \leftarrow 0\)\;
 	}
-	\caption{Функция прогагации квантовой траектории на заданной глубине \(d\)}
+	\caption{Функция пропагации квантовой траектории на заданной глубине \(d\)}
 	\label{alg:qt_recursive}
 \end{algorithm}
 \DecMargin{1em}
