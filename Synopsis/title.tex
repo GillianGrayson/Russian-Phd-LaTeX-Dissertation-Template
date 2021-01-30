@@ -61,12 +61,12 @@
                               \fi
                               \vspace{0.013\paperheight}\\
     \else
-    Научный руководитель:   & \supervisorRegalia\par
-                              \ifdefined\supervisorDead
-                              \framebox{\textbf{\supervisorFio}}
+    Научный руководитель:   & \ifdefined\supervisorDead
+                              	\framebox{\textbf{\supervisorFio}}\par
                               \else
-                              \textbf{\supervisorFio}
+                              	\textbf{\supervisorFio}\par
                               \fi
+                              \supervisorRegalia
                               \vspace{0.013\paperheight}\\
     \fi
     Официальные оппоненты:  &
