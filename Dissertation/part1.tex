@@ -1,4 +1,4 @@
-\chapter{Открытые квантовые системы}\label{ch:ch1}
+\chapter{Математические модели открытых квантовых системы}\label{ch:ch1}
 
 Быстрый прогресс в экспериментальной квантовой физике, особенно в таких областях, как квантовые электродинамические (КЭД) системы \cite{Walther2006}, квантовые оптических системы \cite{Aspelmeyer2014} и поляритонные устройства\cite{Feurer2003}, способствовал переходу к более реалистичному негамильтонову описанию квантовых систем. 
 Динамика таких открытых систем существенно диссипативна и не менее сложна и универсальна, чем унитарная \cite{Diehl2008, Budich2015}. 
@@ -6,7 +6,182 @@
 
 В данной главе в разделе \cref{sec:ch1/oqs_desc} будет рассмотрен основной предмет исследования "--- открытые квантовые системы, методы их описания и анализа.
  
-В разделе \cref{sec:ch1/qj} будет рассмотрен микроскопический метод описания и анализа открытых квантовых систем "--- метод квантовых траекторий.
+В разделе \cref{sec:ch1/qj} будет рассмотрен микроскопический подход к описанию и анализу открытых квантовых систем "--- метод квантовых траекторий.
+
+\section{Общие положения}\label{sec:ch1/common}
+
+Квантовые системы описываются состояниями в гильбертовом пространстве $\mathcal{H}$:
+
+\begin{equation}
+	\label{eq:hilbert_space}
+	\begin{gathered}
+		\mathcal{H} = \Cx^S =\{\vec{v}=\lpx\begin{array}{c} v_1\\  v_2 \\ \vdots\\ v_{S} \end{array}\rpx | v_i\ \in\ \Cx\}.
+	\end{gathered}
+\end{equation}
+В работе будет использоваться формализм Дирака \cite{Dirac1939}, в котором вектора-столбцы (кет-вектора) обозначаются как $\vec{v} \mapsto \ket{v}$. В данном пространстве размерности ${\dim}(\mathcal{H})=S$ рассматривается ортонормированный базис $\left\{\ket{k}\right\}_{k=0}^{d-1}$.
+Любой вектор гильбертова пространства может быть разложен по данному базису:
+\begin{equation}
+	\label{eq:hilbert_superposition}
+	\begin{gathered}
+		\ket{v}=\sum_{k=1}^{S} v_k \ket{k},\; v_k\in\Cx.
+	\end{gathered}
+\end{equation}
+Коэффициенты $v_k$ являются амплитудами вероятности. Вероятность нахождения квантовой системы в конкретном состоянии $\ket{k}$ равна $\absx{v_k}^2$. Набор $\{\absx{v_k}^2\}$ является распределением вероятностей с суммой равной единице. В формализме Дирака \cite{Dirac1939} также определены вектора-строки (бра-вектора), которые связаны с кет-векторами свойством эрмитовости (транспонирования и комплексного сопряжения) $\bra{v} = \ket{v}^\dagger$. Любым двум кет-векторам $\ket{v}$ и $\ket{w}$ можно поставить в соответствие некоторое комплексное число "--- скалярное (внутреннее) произведение:
+\begin{equation}
+	\label{eq:hilbert_inner_prod}
+	\begin{gathered}
+		\braket{v|w} \equiv \begin{pmatrix}v_1^*, \hdots, v_{S}^*\end{pmatrix}
+		\begin{pmatrix}w_1\\\vdots\\w_{S}\end{pmatrix}=\sum_{k=1}^{S} v_k^*w_k.
+	\end{gathered}
+\end{equation}
+Условие нормализации вероятностного распределения может быть переписано в виде:
+\begin{equation}
+	\label{eq:hilbert_normalization}
+	\begin{gathered}
+		1 = \sum_{k=1}^{S}|v_k|^2 = \sum_{k=1}^{S}v^*_k v_k = \braket{v|v} = \normx{\ket{v}}^2.
+	\end{gathered}
+\end{equation}
+Внешнее произведение в гильбертовом пространстве определяется следующим образом:
+\begin{equation}
+	\label{eq:hilbert_outer_prod}
+	\begin{gathered}
+		\ket{v}\bra{w} =
+		\begin{pmatrix}
+			v_1\\ \vdots \\ v_{S}
+		\end{pmatrix}
+		\begin{pmatrix}
+			w_1^*, \hdots, w_{S}^*
+		\end{pmatrix} =
+		\begin{pmatrix}
+			v_1w_1^* & \hdots & v_1w_{S}^*\\
+			\vdots & \ddots & \vdots\\
+			v_{S}w_1^* & \hdots & v_{S}w_{S}^*
+		\end{pmatrix}.
+	\end{gathered}
+\end{equation}
+Для двух квантовых систем с соответствующими гильбертовыми пространствами $\mathcal{H}_1$ и $\mathcal{H}_2$ общая квантовая система имеет гильбертово пространство, заданное формулой $\mathcal{H} = \mathcal{H}_1 \otimes \mathcal{H}_2$. Пусть базис пространства $\mathcal{H}_1$ состоит из векторов $\{\ket{{{v}_{i}}}\}_{i=1}^{{{S}_{1}}}$, базис $\mathcal{H}_2$ "--- из векторов $\{\ket{{{w}_{j}}}\}_{j=1}^{{{S}_{2}}}$, тогда базис результирующего пространства состоит из векторов $\{\ket{{{v}_{i}}}\otimes \ket{{{w}_{j}}}\}_{i=1,j=1}^{{{S}_{1}},{{S}_{2}}}$. Для двух состояний $\ket{\psi}\in\mathcal{H}_1$, $\ket{\phx}\in\mathcal{H}_2$ тензорное произведение определяется следующим образом:
+\begin{equation}
+	\label{eq:hilbert_tensor_operator}
+	\begin{gathered}
+		\ket{\psi}\otimes\ket{\phx} =
+		\begin{pmatrix}
+			\psi_1\\
+			\vdots\\
+			\psi_{S_1}
+		\end{pmatrix}
+		\otimes
+		\begin{pmatrix}
+			\phx_1\\
+			\vdots\\
+			\phx_{S_2}
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\psi_1\phx_1\\
+			\vdots\\
+			\psi_1\phx_{S_2}\\
+			\vdots\\
+			\psi_{S_1}\phx_{S_2}
+		\end{pmatrix}.
+	\end{gathered}
+\end{equation}
+Тензорное произведение для матриц:
+\begin{equation}
+	\label{eq:hilbert_tensor_matrix}
+	\begin{gathered}
+		{A} =
+		\begin{pmatrix}
+			a_{11} & \hdots & a_{1n}\\
+			\vdots & \ddots & \vdots\\
+			a_{m1} & \hdots & a_{mn}
+		\end{pmatrix}\;\ \ \ \
+		{B} =
+		\begin{pmatrix}
+			b_{11} & \hdots & b_{1q}\\
+			\vdots & \ddots & \vdots\\
+			b_{p1} & \hdots & b_{pq}
+		\end{pmatrix} \\
+		{A}\otimes{B} =
+		\begin{pmatrix}
+			a_{11}b_{11} & \hdots & a_{1n}b_{1q}\\
+			\vdots & \ddots & \vdots\\
+			a_{m1}b_{p1} & \hdots & a_{mn}b_{pq}
+		\end{pmatrix}.
+	\end{gathered}
+\end{equation}
+
+Эволюция во времени изолированной квантовой системы определяется уравнением Шрёдингера:
+\begin{equation}
+	\label{eq:shr}
+	\begin{gathered}
+		\ket{\dot{\psi}(t)} = -\iix \opHx \ket{\psi(t)},
+	\end{gathered}
+\end{equation}
+где $\opHx$ "--- эрмитовый оператор Гамильтона. Решением данного уравнения является вектор:
+\begin{equation}
+	\label{eq:shr_sol}
+	\begin{gathered}
+		\ket{\psi(t)} = \opUx(t)\ket{\psi(0)},
+	\end{gathered}
+\end{equation}
+где $\ket{\psi(0)}$ "--- состояние системы в начальный момент времени, $\opUx(t)$ - унитарный оператор, определяющийся из гамильтониана системы.
+В случае, если гамильтониан не зависит от времени, то:
+\begin{equation}
+	\label{eq:shr_op_ind}
+	\begin{gathered}
+		\opUx(t) = \exp\left(-i\opHx t\right).
+	\end{gathered}
+\end{equation}
+В случае зависимости от времени:
+\begin{equation}
+	\label{eq:shr_op_dep}
+	\begin{gathered}
+		\opUx(t)={\mathcal{T}}{{e}^{-i\int_{0}^{T}{H(t')dt'}}}.
+	\end{gathered}
+\end{equation}
+где $\mathcal{T}$ "--- оператор хронологического упорядочивания.
+
+Квантовые измерения описываются набором $\left\{{M}_k\right\}_{k=1}^{N}$ операторов измерения, которые удовлетворяют условию $\sum_k {M}_k^\dagger{M}_k = {I}$. Заданное состояние $\ket{\psi}\in\mathcal{H}$ после измерения становится:
+\begin{equation}
+	\label{eq:measure_state}
+	\begin{gathered}
+		\ket{\psi} \mapsto \frac{M_k\ket{\psi}}{\sqrt{p_k}} \equiv \ket{\psi_k},
+	\end{gathered}
+\end{equation}
+c соответствующей вероятностью:
+\begin{equation}
+	\label{eq:measure_prob}
+	\begin{gathered}
+		p_k = \braket{\psi|{M}_k^\dagger{M}_k|\psi} = \|M_k \ket{\psi}\|^2 \geq 0.
+	\end{gathered}
+\end{equation}
+Результатом измерения является индекс $k$ результирующего состояния. Сумма вероятностей $p_k$ равна единице.
+
+Каждой физически измеримой величине соответствует наблюдаемая, то есть эрмитов оператор $A$, имеющий спектральное разложение:
+\begin{equation}
+	\label{eq:obs_def}
+	\begin{gathered}
+		A = \sum_{a} \lambda_a \ket{a}\bra{a},
+	\end{gathered}
+\end{equation}
+где $\lambda_a \in \mathbb{R}$ "--- результаты измерения (в ходе физического измерения получаются действительные числа). Из ортонормированного множества собственных векторов $\{\ket{a}\}$ формируются проекторы $\{ P_a \equiv \ket{a}\bra{a} \}$, которые являются операторами измерения соответствующей наблюдаемой. Таким образом, если система находится в состоянии $\ket{\psi}$ перед измерением наблюдаемой $A$, то, в соответствии с формулой \cref{eq:measure_prob}, вероятность исхода $\lambda_a$ равна $p_a = \braket{\psi | P^\dagger_a P_a | \psi} = |\bra{\psi}a\rangle|^2$.
+В заданном состоянии системы $\ket{\psi}$ для наблюдаемой $A$ можно определить ее среднее значение:
+\begin{equation}
+	\label{eq:obs_expect}
+	\begin{gathered}
+		\langle A \rangle_\psi \equiv \sum_{a} \lambda_a p_a = \sum_{a} \lambda_a \braket{\psi|P_a|\psi} = \braket{\psi| \left( \sum_{a} \lambda_a P_a \right) | \psi} = \\
+		=\braket{\psi| A | \psi} = \Trx (A \ket{\psi}\bra{\psi}).
+	\end{gathered}
+\end{equation}
+
+Предположим теперь, что квантовая система находится в состоянии $\ket{\psi_1}$ с вероятностью $q_1$, в состоянии $\ket{\psi_2}$ с вероятностью $q_2$ и так далее. То есть, имеется ансамбль состояний $\{ q_i, \ket{\psi_i} \}_{i=1}^{N}$, которые называются «чистыми». Квантовые измерения для заданного состояния системы $\ket{\psi_i}$ и операторов $\{ M_k\}$ осуществляются следующим образом:
+\begin{equation}
+	\label{eq:pure_measure}
+	\begin{gathered}
+		\ket{\psi_i} \mapsto \frac{M_k \ket{\psi_i} }{\sqrt{{p}_{k|i}}} = \ket{\psi_i^k}
+	\end{gathered}
+\end{equation}
+с соответствующими вероятностями ${p}_{k|i}=\braket{\psi_i| M_k^{\dagger} M_k | \psi_i}$ получения исхода $k$ при заданном состоянии $\ket{\psi_i}$.
 
 \section{Описание открытых квантовых систем}\label{sec:ch1/oqs_desc}
 
